@@ -4,7 +4,7 @@
 `make`
 
 ## Execution
-`./server\n`
+`./server`
 `./client`
 
 ### Bugs
