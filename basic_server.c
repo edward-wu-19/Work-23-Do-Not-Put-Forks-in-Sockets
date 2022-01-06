@@ -8,6 +8,7 @@ int main() {
     int socket = server_setup();
     if (socket == -1){
             printf("Error: %s\n\n", strerror(errno));
+            return -1;
         }
 
     // Persistent Process
@@ -15,6 +16,7 @@ int main() {
         int client = server_connect(socket);
         if (client == -1){
             printf("Error: %s\n\n", strerror(errno));
+            return -1;
         }
 
         // Forking Server
@@ -28,6 +30,7 @@ int main() {
 
                 if (err1 == -1){
                     printf("Error: %s\n\n", strerror(errno));
+                    return -1;
                 }
 
                 // String Manipulation (Upper Case)
@@ -42,6 +45,7 @@ int main() {
                 int err2 = write(client, buffer, BUFFER_SIZE);
                 if (err2 == -1){
                     printf("Error: %s\n\n", strerror(errno));
+                    return -1;
                 }
             }
         }

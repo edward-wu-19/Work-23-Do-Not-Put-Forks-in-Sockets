@@ -8,6 +8,9 @@ int main(int argc, char* argv[]) {
     }
 
   int server = client_setup(ipaddr);
+  if (server == -1){
+        return -1;
+    }
 
   char* buffer = calloc(BUFFER_SIZE, sizeof(char));
 
@@ -22,12 +25,14 @@ int main(int argc, char* argv[]) {
         int err1 = write(server, buffer, BUFFER_SIZE);
         if (err1 == -1){
             printf("Error: %s\n\n", strerror(errno));
+            return -1;
         }
 
         // Reading From Worker To User Pipe
         int err2 = read(server, buffer, BUFFER_SIZE);
-        if (err2 == -1){
+        if (err2 != err1){
             printf("Error: %s\n\n", strerror(errno));
+            return -1;
         }
 
         printf("The server says: %s\n", buffer);
