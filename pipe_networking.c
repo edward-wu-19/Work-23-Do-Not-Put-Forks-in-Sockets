@@ -15,8 +15,14 @@ int server_setup(){
 
     //create socket
     int sd = socket(results->ai_family, results->ai_socktype, results->ai_protocol);
+    if (socket == -1){
+        printf("Error: %s\n\n", strerror(errno));
+    }
 
-    bind(sd, results->ai_addr, results->ai_addrlen);
+    int foo = bind(sd, results->ai_addr, results->ai_addrlen);
+    if (foo == -1){
+        printf("Error: %s\n\n", strerror(errno));
+    }
 
     //DO STUFF
 
@@ -42,6 +48,9 @@ int server_connect(int sd) {
     struct sockaddr_storage client_address;
     sock_size = sizeof(client_address);
     client_socket = accept(sd,(struct sockaddr *)&client_address, &sock_size);
+    if (client_socket == -1){
+        printf("Error: %s\n\n", strerror(errno));
+    }
 
     return client_socket;
 }
@@ -55,12 +64,21 @@ int client_setup(char * server) {
     hints->ai_family = AF_INET;
     hints->ai_socktype = SOCK_STREAM; //TCP socket
     hints->ai_flags = AI_PASSIVE; //only needed on server
-    getaddrinfo(NULL, PORT, hints, &results);  //Server sets node to NULL
+    int goo = getaddrinfo(NULL, PORT, hints, &results);  //Server sets node to NULL
+    if (goo == -1){
+        printf("Error: %s\n\n", strerror(errno));
+    }
 
     //create socket
     int sd = socket(results->ai_family, results->ai_socktype, results->ai_protocol);
+    if (sd == -1){
+        printf("Error: %s\n\n", strerror(errno));
+    }
 
-    connect(sd, results->ai_addr, results->ai_addrlen);
+    int foo = connect(sd, results->ai_addr, results->ai_addrlen);
+    if (foo == -1){
+        printf("Error: %s\n\n", strerror(errno));
+    }
 
     return sd;
 }

@@ -20,9 +20,15 @@ int main(int argc, char* argv[]) {
 
         // Writing To User To Worker Pipe
         int err1 = write(server, buffer, BUFFER_SIZE);
+        if (err1 == -1){
+            printf("Error: %s\n\n", strerror(errno));
+        }
 
         // Reading From Worker To User Pipe
         int err2 = read(server, buffer, BUFFER_SIZE);
+        if (err2 == -1){
+            printf("Error: %s\n\n", strerror(errno));
+        }
 
         printf("The server says: %s\n", buffer);
     }
